@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+import { inject,injectable } from 'tsyringe'
+
 import { ICategoriesRepository } from '../../repositories/ICategoriesRepository';
 
 // Para ter acesso aos dados teríamos que instanciar
@@ -8,8 +10,11 @@ interface IRequest {
 }
 
 // Classe para criar categorias
+@injectable()
 class CreateCategoryUseCase {
-    constructor(private categoriesRepository: ICategoriesRepository) {}
+    constructor(
+    @inject('CategoriesRepository')
+    private categoriesRepository: ICategoriesRepository) {}
 
     async execute({ name, description }: IRequest): Promise<void> {
         // Verificamos se a categoria não existe através do nome

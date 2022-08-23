@@ -2,7 +2,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 
-import createCategoryController from '../modules/cars/useCases/createCategory';
+import { CreatedCategoryController } from '../modules/cars/useCases/createCategory/CreateCategoryController';
 import importCategoryController from '../modules/cars/useCases/ImportCategoryUseCase';
 import listCategoriesController from '../modules/cars/useCases/listCategories';
 
@@ -12,10 +12,10 @@ const upload = multer({
   dest: './tmp',
 });
 
+const createCategoryController = new CreatedCategoryController()
+
 // Modificamos nossa rota para atender ao princípio SOLID de responsabilidade única (Nossa rota é responsável apenas por servir os dados)
-categoriesRoutes.post('/', (request, response) => {
-  return createCategoryController().handle(request, response);
-});
+categoriesRoutes.post('/',createCategoryController.handle);
 
 categoriesRoutes.get('/', (request, response) => {
   return listCategoriesController().handle(request, response);
