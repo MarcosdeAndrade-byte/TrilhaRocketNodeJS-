@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { parse } from 'csv-parse';
 import fs from 'fs';
+import { injectable, inject } from 'tsyringe';
 
 import { ICategoriesRepository } from '../../repositories/ICategoriesRepository';
 
@@ -8,9 +9,11 @@ interface IImportCategory {
     name: string;
     description: string;
 }
-
+@injectable()
 class ImportCategoryUseCase {
-    constructor(private categoriesRepository: ICategoriesRepository) {}
+    constructor(
+    @inject('createSpecificationController')
+    private categoriesRepository: ICategoriesRepository) {}
 
     loadCategories(file: Express.Multer.File): Promise<IImportCategory[]> {
         // Temos que colocar nosso código dentro de uma Promise para fazer com que o node espere o retorno da função
@@ -60,7 +63,7 @@ class ImportCategoryUseCase {
 
             // Se não existir,cria uma nova categoria no banco de dados
             if (!existCategory) {
-                this.categoriesRepository.create({
+                await this.categoriesRepository.create({
                     name,
                     description,
                 })
