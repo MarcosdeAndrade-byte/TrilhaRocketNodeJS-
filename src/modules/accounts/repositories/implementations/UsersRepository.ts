@@ -12,9 +12,7 @@ class UserRepository implements IUsersRepository {
         this.repository = AppDataSource.getRepository(User);
     }
 
-    // Criar um usuário no banco de dados
     async create({
-        // Atributos
         name,
         username,
         email,
@@ -33,6 +31,11 @@ class UserRepository implements IUsersRepository {
 
         // Os atributos são salvos no banco de dados
         await this.repository.save(user);
+    }
+
+    async findByEmail(email: string): Promise<User> {
+        const user = await this.repository.findOneBy({ email });
+        return user;
     }
 }
 
