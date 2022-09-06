@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { inject,injectable } from 'tsyringe'
+import { inject, injectable } from 'tsyringe';
+import { AppError } from '../../../../errors/AppError';
 
 import { ICategoriesRepository } from '../../repositories/ICategoriesRepository';
 
@@ -13,17 +14,19 @@ interface IRequest {
 @injectable()
 class CreateCategoryUseCase {
     constructor(
-    @inject('CategoriesRepository')
-    private categoriesRepository: ICategoriesRepository) {}
+        @inject('CategoriesRepository')
+        private categoriesRepository: ICategoriesRepository,
+    ) {}
 
     async execute({ name, description }: IRequest): Promise<void> {
         // Verificamos se a categoria não existe através do nome
         // eslint-disable-next-line prettier/prettier
-        const categoryAlreadyExists = await this.categoriesRepository.findByName(name);
+        const categoryAlreadyExists =
+            await this.categoriesRepository.findByName(name);
 
         if (categoryAlreadyExists) {
             // Não utilizamos o response para não ficar dependente do express
-            throw new Error('Category Already exists!');
+            throw new AppError('Category Already exists!');
         }
 
         // Caso não exista,criamos a categoria no repositório
