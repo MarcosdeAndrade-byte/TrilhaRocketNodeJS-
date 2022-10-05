@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Repository } from 'typeorm';
-import { AppDataSource } from '../../../../database';
+
+import { AppDataSource } from '../../../../database/data-source';
 import { Specification } from '../../entities/Specification';
 import {
     ISpecificationsRepository,
@@ -14,16 +15,19 @@ class SpecificationsRepository implements ISpecificationsRepository {
         this.repository = AppDataSource.getRepository(Specification);
     }
 
-    async create({ description, name }: ICreateSpecificationDTO): Promise<void> {
+    async create({
+        description,
+        name,
+    }: ICreateSpecificationDTO): Promise<void> {
         const specification = this.repository.create({
             name,
-            description
-        })
+            description,
+        });
         await this.repository.save(specification);
     }
 
     async findByName(name: string): Promise<Specification> {
-        const specification = await this.repository.findOneBy({name});
+        const specification = await this.repository.findOneBy({ name });
         return specification;
     }
 }

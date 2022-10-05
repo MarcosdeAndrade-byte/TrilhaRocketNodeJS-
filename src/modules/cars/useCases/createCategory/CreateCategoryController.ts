@@ -5,13 +5,12 @@ import { container } from 'tsyringe';
 import { CreateCategoryUseCase } from './CreateCategoryUseCase';
 
 class CreatedCategoryController {
-
     async handle(request: Request, response: Response): Promise<Response> {
         const { name, description } = request.body;
 
-        const createCategoryUserCase = container.resolve(CreateCategoryUseCase)
+        const createCategoryUserCase = container.resolve(CreateCategoryUseCase);
 
-        await createCategoryUserCase.execute({ name, description});
+        await createCategoryUserCase.execute({ name, description });
 
         return response.status(201).send();
     }

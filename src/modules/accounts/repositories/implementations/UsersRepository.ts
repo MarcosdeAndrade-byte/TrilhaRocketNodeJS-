@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 
-import { AppDataSource } from '../../../../database';
+import { AppDataSource } from '../../../../database/data-source';
 import { ICreateUserDTO } from '../../../dtos/ICreateUserDTO';
 import { User } from '../entities/User';
 import { IUsersRepository } from '../IUsersRepository';
@@ -28,6 +28,8 @@ class UserRepository implements IUsersRepository {
         isAdmin,
         driver_license,
         password,
+        avatar,
+        id,
     }: ICreateUserDTO): Promise<void> {
         const user = this.repository.create({
             name,
@@ -36,6 +38,8 @@ class UserRepository implements IUsersRepository {
             isAdmin,
             driver_license,
             password,
+            avatar,
+            id,
         });
 
         // Os atributos são salvos no banco de dados

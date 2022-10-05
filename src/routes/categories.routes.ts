@@ -9,18 +9,22 @@ import { ListCategoriesController } from '../modules/cars/useCases/listCategorie
 const categoriesRoutes = Router();
 
 const upload = multer({
-  dest: './tmp',
+    dest: './tmp',
 });
 
-const createCategoryController = new CreatedCategoryController()
-const importCategoryController = new ImportCategoryController()
-const listCategoriesController = new ListCategoriesController()
+const createCategoryController = new CreatedCategoryController();
+const importCategoryController = new ImportCategoryController();
+const listCategoriesController = new ListCategoriesController();
 
 // Modificamos nossa rota para atender ao princípio SOLID de responsabilidade única (Nossa rota é responsável apenas por servir os dados)
 categoriesRoutes.post('/', createCategoryController.handle);
 
 categoriesRoutes.get('/', listCategoriesController.handle);
 
-categoriesRoutes.post('/import', upload.single('file'), importCategoryController.handle);
+categoriesRoutes.post(
+    '/import',
+    upload.single('file'),
+    importCategoryController.handle,
+);
 
 export { categoriesRoutes };

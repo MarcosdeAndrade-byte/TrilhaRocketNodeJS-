@@ -1,9 +1,11 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 /* eslint-disable prettier/prettier */
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import swaggerUi from 'swagger-ui-express';
 
-import './database';
+import './database/data-source';
 import './shared/container';
 import { AppError } from './errors/AppError';
 import { router } from './routes';

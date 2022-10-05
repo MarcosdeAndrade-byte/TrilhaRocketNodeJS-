@@ -5,6 +5,8 @@ interface ICreateUserDTO {
     email: string;
     isAdmin: boolean;
     driver_license: string;
+    id?: string;
+    avatar?: string;
 }
 
 export { ICreateUserDTO };

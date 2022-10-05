@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { decode, verify } from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
 
 import { AppError } from '../errors/AppError';
 import UserRepository from '../modules/accounts/repositories/implementations/UsersRepository';
@@ -33,7 +33,17 @@ export async function ensureAuthenticated(
         console.log(user_id);
 
         const usersRepository = new UserRepository();
-        usersRepository.findById(user_id);
+
+        const user = await usersRepository.findById(user_id);
+
+        if (!user) {
+            throw new AppError('User does not exists', 401);
+        }
+
+        request.user = {
+            id: user_id,
+        };
+
         next();
     } catch (error) {
         throw new AppError('Invalid token!', 401);
