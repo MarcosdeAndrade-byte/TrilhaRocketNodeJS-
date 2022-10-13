@@ -1,9 +1,9 @@
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
-import { AppError } from '../../../errors/AppError';
 
-import UserRepository from '../repositories/implementations/UsersRepository';
+import { AppError } from '../../../errors/AppError';
+import { IUsersRepository } from '../repositories/IUsersRepository';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 interface Irequest {
@@ -23,7 +23,7 @@ interface IResponse {
 class AuthenticateUserUseCase {
     constructor(
         @inject('UsersRepository')
-        private userRepository: UserRepository,
+        private userRepository: IUsersRepository,
     ) {}
 
     async execute({ email, password }: Irequest): Promise<IResponse> {
@@ -54,7 +54,6 @@ class AuthenticateUserUseCase {
                 email: user.email,
             },
         };
-
         // Gerar Json
         return tokenReturn;
     }

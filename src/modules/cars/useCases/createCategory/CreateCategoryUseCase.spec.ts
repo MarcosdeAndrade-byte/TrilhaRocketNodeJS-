@@ -1,4 +1,4 @@
-import { Category } from '../../entities/Category';
+import { AppError } from '../../../../errors/AppError';
 import { CategoriesRepositoryInMemory } from '../../in-memory/CategoriesRepositoryInMemory';
 import { CreateCategoryUseCase } from './CreateCategoryUseCase';
 
@@ -33,4 +33,27 @@ describe('Create Category', () => {
 
         expect(categoryCreated).toHaveProperty('id');
     });
+
+    it('should not be able to create a new category with exists', async () => {
+        expect(async () => {
+            // Toda essa estrutura gera um erro (Já que está duplicada no banco)
+            const category = {
+                name: 'Category Test',
+                description: 'Category description Test',
+            };
+
+            await createCategoryUseCase.execute({
+                name: category.name,
+                description: category.description,
+            });
+
+            await createCategoryUseCase.execute({
+                name: category.name,
+                description: category.description,
+            });
+            // quando for rejeitado o erro deve ser uma instância da classe AppError
+        }).rejects.toBeInstanceOf(AppError);
+    });
 });
+
+export { CategoriesRepositoryInMemory };
