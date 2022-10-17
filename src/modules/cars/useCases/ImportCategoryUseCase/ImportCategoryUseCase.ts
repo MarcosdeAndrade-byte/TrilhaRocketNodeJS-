@@ -1,9 +1,10 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable prettier/prettier */
 import { parse } from 'csv-parse';
 import fs from 'fs';
 import { injectable, inject } from 'tsyringe';
 
-import { ICategoriesRepository } from '../../repositories/ICategoriesRepository';
+import { ICategoriesRepository } from '@modules/cars/repositories/ICategoriesRepository';
 
 interface IImportCategory {
     name: string;
@@ -12,8 +13,9 @@ interface IImportCategory {
 @injectable()
 class ImportCategoryUseCase {
     constructor(
-    @inject('createSpecificationController')
-    private categoriesRepository: ICategoriesRepository) {}
+        @inject('createSpecificationController')
+        private categoriesRepository: ICategoriesRepository,
+    ) {}
 
     loadCategories(file: Express.Multer.File): Promise<IImportCategory[]> {
         // Temos que colocar nosso código dentro de uma Promise para fazer com que o node espere o retorno da função
@@ -31,19 +33,22 @@ class ImportCategoryUseCase {
             stream.pipe(parseFile);
 
             // Método utilizado para inserir as categorias do arquivo CSV(O on é um método )
-            parseFile.on('data', async line => {
-                const [name, description] = line;
-                categories.push({
-                      name,
-                      description,
-                   });
-            }).on('end', () => {
-                // Método para retirar o arquivo da pasta depois que foi lido e suas informações foram adicionadas no repositório principal
-                fs.promises.unlink(file.path);
-                resolve(categories);
-            }).on('error', (err) => {
-                reject(err);
-            });
+            parseFile
+                .on('data', async line => {
+                    const [name, description] = line;
+                    categories.push({
+                        name,
+                        description,
+                    });
+                })
+                .on('end', () => {
+                    // Método para retirar o arquivo da pasta depois que foi lido e suas informações foram adicionadas no repositório principal
+                    fs.promises.unlink(file.path);
+                    resolve(categories);
+                })
+                .on('error', err => {
+                    reject(err);
+                });
         });
     }
 
@@ -51,10 +56,9 @@ class ImportCategoryUseCase {
     async execute(file: Express.Multer.File): Promise<void> {
         // Passamos o arquivo como argumento da função loadCategories (Responsável por retornar um array com as categorias do arquivo CSV)
         const categories = await this.loadCategories(file);
-        
-        // Vamos utilizar a função map para verificar se existe uma categoria repetida
-        categories.map(async (category) => {
 
+        // Vamos utilizar a função map para verificar se existe uma categoria repetida
+        categories.map(async category => {
             // Desestruturação da variável categories
             const { name, description } = category;
 
@@ -66,10 +70,9 @@ class ImportCategoryUseCase {
                 await this.categoriesRepository.create({
                     name,
                     description,
-                })
+                });
             }
-        })
-
+        });
     }
 }
 

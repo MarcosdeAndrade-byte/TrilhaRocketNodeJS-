@@ -1,7 +1,7 @@
-/*
- * For a detailed explanation regarding each configuration property and type check, visit:
- * https://jestjs.io/docs/configuration
- */
+// eslint-disable-next-line import/no-unresolved
+import { pathsToModuleNameMapper } from 'ts-jest';
+
+import { compilerOptions } from './tsconfig.json';
 
 export default {
     // All imported modules in your tests should be mocked automatically
@@ -34,22 +34,9 @@ export default {
     // Indicates which provider should be used to instrument code for coverage
     coverageProvider: 'v8',
 
-    // A list of reporter names that Jest uses when writing coverage reports
-    // coverageReporters: [
-    //   "json",
-    //   "text",
-    //   "lcov",
-    //   "clover"
-    // ],
-
-    // An object that configures minimum threshold enforcement for coverage results
-    // coverageThreshold: undefined,
-
-    // A path to a custom dependency extractor
-    // dependencyExtractor: undefined,
-
-    // Make calling deprecated APIs throw helpful error messages
-    // errorOnDeprecated: false,
+    moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+        prefix: '<rootDir>/src/',
+    }),
 
     // The default configuration for fake timers
     // fakeTimers: {

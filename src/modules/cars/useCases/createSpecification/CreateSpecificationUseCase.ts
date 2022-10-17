@@ -1,6 +1,8 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable prettier/prettier */
 import { injectable, inject } from 'tsyringe';
-import { AppError } from '../../../../errors/AppError';
+
+import { AppError } from '@errors/AppError';
 
 import { ISpecificationsRepository } from '../../repositories/ISpecificationsRepository';
 
