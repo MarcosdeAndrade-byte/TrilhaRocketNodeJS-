@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { Repository } from 'typeorm';
 
-import { AppDataSource } from '../../../../database/data-source';
-import { Category } from '../../entities/Category';
+import { AppDataSource } from '../../../../../shared/typeorm/data-source';
 import {
     ICategoriesRepository,
     ICreateCategoryDTO,
-} from '../ICategoriesRepository';
+} from '../../../repositories/ICategoriesRepository';
+import { Category } from '../entities/Category';
 
 class CategoriesRepository implements ICategoriesRepository {
     private repository: Repository<Category>;

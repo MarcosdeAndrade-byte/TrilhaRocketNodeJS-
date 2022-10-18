@@ -2,9 +2,9 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 
-import { User } from '../modules/accounts/repositories/entities/User';
-import { Category } from '../modules/cars/entities/Category';
-import { Specification } from '../modules/cars/entities/Specification';
+import { User } from '../../modules/accounts/infra/typeorm/entities/User';
+import { Category } from '../../modules/cars/infra/typeorm/entities/Category';
+import { Specification } from '../../modules/cars/infra/typeorm/entities/Specification';
 import { CreateSpecification1649000056992 } from './migrations/1649000056992-CreateSpecification';
 import { CreateCategories1658090323925 } from './migrations/1658090323925-CreateCategories';
 

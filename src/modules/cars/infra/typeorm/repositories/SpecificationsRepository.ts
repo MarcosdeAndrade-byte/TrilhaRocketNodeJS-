@@ -1,12 +1,14 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable prettier/prettier */
 import { Repository } from 'typeorm';
 
-import { AppDataSource } from '../../../../database/data-source';
-import { Specification } from '../../entities/Specification';
 import {
-    ISpecificationsRepository,
     ICreateSpecificationDTO,
-} from '../ISpecificationsRepository';
+    ISpecificationsRepository,
+} from '@modules/cars/repositories/ISpecificationsRepository';
+
+import { AppDataSource } from '../../../../../shared/typeorm/data-source';
+import { Specification } from '../entities/Specification';
 
 class SpecificationsRepository implements ISpecificationsRepository {
     private repository: Repository<Specification>;

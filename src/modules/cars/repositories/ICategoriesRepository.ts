@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Category } from '../entities/Category';
+import { Category } from '../infra/typeorm/entities/Category';
 
 // DTO => Data transfer object
 interface ICreateCategoryDTO {
